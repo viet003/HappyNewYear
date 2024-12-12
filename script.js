@@ -213,16 +213,31 @@ tl.add(animateNotes(notesG1)).add(animateNotes(notesG2), ">0.05").add(animateNot
 })();
 
 const audio = document.getElementById('audio');
-const btnAudio = document.querySelector('.audio-btn');
+const btnAudio = document.getElementById('audio-btn');
+let isPlay = false;
+
+let ms = new Audio('https://res.cloudinary.com/dxfhmy8id/video/upload/v1733978646/kvlmkamqpms50kiqjekd.mp3');
 
 // Tự động phát nhạc khi trang được tải
-// window.addEventListener('DOMContentLoaded', function () {
-//   audio.play().catch((error) => {
-//     console.log('Không thể phát nhạc tự động: ', error);
-//   });
-// });
+window.addEventListener('DOMContentLoaded', function () {
+  ms.play();
+  isPlay = true;
+  btnAudio.innerHTML = '<i class="fa-solid fa-pause"></i>'; // Thay đổi nội dung nút với icon pause
+  btnAudio.classList.add('rotating') // Thay đổi nội dung nút với icon play
+});
 
-// // Sự kiện cho nút bấm nếu cần
-// btnAudio.addEventListener('click', function () {
-//   audio.play();
-// })
+// Sự kiện cho nút bấm Play nhạc
+// Sự kiện cho nút bấm Play nhạc
+btnAudio.addEventListener('click', function () {
+  if (isPlay) {
+    ms.pause();
+    isPlay = false; // Cập nhật trạng thái là không phát nhạc
+    btnAudio.innerHTML = '<i class="fa-solid fa-play"></i>';
+    btnAudio.classList.remove('rotating') // Thay đổi nội dung nút với icon play
+  } else {
+    ms.play();
+    isPlay = true; // Cập nhật trạng thái là đang phát nhạc
+    btnAudio.innerHTML = '<i class="fa-solid fa-pause"></i>'; // Thay đổi nội dung nút với icon pause
+    btnAudio.classList.add('rotating') // Thay đổi nội dung nút với icon play
+  }
+});
