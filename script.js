@@ -212,11 +212,17 @@ tl.add(animateNotes(notesG1)).add(animateNotes(notesG2), ">0.05").add(animateNot
   animation.animate();
 })();
 
+const audio = document.getElementById('audio');
+const btnAudio = document.querySelector('.audio-btn');
 
-const audio = document.getElementById('audio')
-const btnAudio = document.querySelector('.audio-btn')
+// Tự động phát nhạc khi trang được tải
+// window.addEventListener('DOMContentLoaded', function () {
+//   audio.play().catch((error) => {
+//     console.log('Không thể phát nhạc tự động: ', error);
+//   });
+// });
 
-btnAudio.addEventListener('click', function () {
-  audio.play()
-})
-
+// // Sự kiện cho nút bấm nếu cần
+// btnAudio.addEventListener('click', function () {
+//   audio.play();
+// })
