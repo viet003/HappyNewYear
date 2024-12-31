@@ -212,32 +212,54 @@ tl.add(animateNotes(notesG1)).add(animateNotes(notesG2), ">0.05").add(animateNot
   animation.animate();
 })();
 
-const audio = document.getElementById('audio');
-const btnAudio = document.getElementById('audio-btn');
+// 
+let ms = new Audio('https://res.cloudinary.com/dxfhmy8id/video/upload/v1735614022/music/bvyjvsvwg2fex8rdbub1.mp3');
 let isPlay = false;
+let audioContext;
 
-let ms = new Audio('https://res.cloudinary.com/dxfhmy8id/video/upload/v1733978646/kvlmkamqpms50kiqjekd.mp3');
+// Tạo AudioContext khi trang tải
+window.onload = function() {
+  audioContext = new (window.AudioContext || window.webkitAudioContext)();
+}
 
-// Tự động phát nhạc khi trang được tải
-window.addEventListener('DOMContentLoaded', function () {
-  ms.play();
-  isPlay = true;
-  btnAudio.innerHTML = '<i class="fa-solid fa-pause"></i>'; // Thay đổi nội dung nút với icon pause
-  btnAudio.classList.add('rotating') // Thay đổi nội dung nút với icon play
-});
-
-// Sự kiện cho nút bấm Play nhạc
-// Sự kiện cho nút bấm Play nhạc
-btnAudio.addEventListener('click', function () {
-  if (isPlay) {
-    ms.pause();
-    isPlay = false; // Cập nhật trạng thái là không phát nhạc
-    btnAudio.innerHTML = '<i class="fa-solid fa-play"></i>';
-    btnAudio.classList.remove('rotating') // Thay đổi nội dung nút với icon play
+// One-liner to resume playback when user interacted with the page.
+document.querySelector('#audio-btn').addEventListener('click', function() {
+  if (audioContext.state === 'suspended') {
+    audioContext.resume().then(() => {
+      console.log('AudioContext resumed');
+      toggleAudio();
+    });
   } else {
-    ms.play();
-    isPlay = true; // Cập nhật trạng thái là đang phát nhạc
-    btnAudio.innerHTML = '<i class="fa-solid fa-pause"></i>'; // Thay đổi nội dung nút với icon pause
-    btnAudio.classList.add('rotating') // Thay đổi nội dung nút với icon play
+    toggleAudio();
   }
 });
+
+// Hàm phát/tạm dừng nhạc
+function toggleAudio() {
+  if (ms.paused) {
+    ms.play().then(() => {
+      isPlay = true;
+      updateButton();
+      console.log('Playback started');
+    }).catch((error) => {
+      console.log('Error playing audio:', error);
+    });
+  } else {
+    ms.pause();
+    isPlay = false;
+    updateButton();
+    console.log('Playback paused');
+  }
+}
+
+// Hàm cập nhật giao diện nút bấm
+function updateButton() {
+  const btnAudio = document.getElementById('audio-btn');
+  if (isPlay) {
+    btnAudio.innerHTML = '<i class="fa-solid fa-pause"></i>';
+    btnAudio.classList.add('rotating');
+  } else {
+    btnAudio.innerHTML = '<i class="fa-solid fa-play"></i>';
+    btnAudio.classList.remove('rotating');
+  }
+}
