@@ -213,17 +213,22 @@ tl.add(animateNotes(notesG1)).add(animateNotes(notesG2), ">0.05").add(animateNot
 })();
 
 // 
-let ms = new Audio('https://res.cloudinary.com/dxfhmy8id/video/upload/v1735614022/music/bvyjvsvwg2fex8rdbub1.mp3');
+let ms = new Audio('https://res.cloudinary.com/dxfhmy8id/video/upload/v1746802345/music_bxgt39.mp3');
 let isPlay = false;
 let audioContext;
 
 // Tạo AudioContext khi trang tải
-window.onload = function() {
+window.onload = function () {
   audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+  setTimeout(() => {
+    toggleAudio();
+    console.log('bug')
+  }, 2000)
 }
 
 // One-liner to resume playback when user interacted with the page.
-document.querySelector('#audio-btn').addEventListener('click', function() {
+document.querySelector('#audio-btn').addEventListener('click', function () {
   if (audioContext.state === 'suspended') {
     audioContext.resume().then(() => {
       console.log('AudioContext resumed');
